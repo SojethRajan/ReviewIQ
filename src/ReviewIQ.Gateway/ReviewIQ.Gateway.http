@@ -1,0 +1,6 @@
+@ReviewIQ.Gateway_HostAddress = http://localhost:5083
+
+GET {{ReviewIQ.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
