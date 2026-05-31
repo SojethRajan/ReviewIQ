@@ -1,0 +1,169 @@
+name: ReviewIQ CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - release/1.0.0
+
+jobs:
+  # ─────────────────────────────────────────────
+  # JOB 1 — Build & Test all 4 .NET services
+  # ─────────────────────────────────────────────
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ReviewIQ.sln
+
+      - name: Build solution
+        run: dotnet build ReviewIQ.sln --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test ReviewIQ.sln --no-build --configuration Release --verbosity normal
+
+  # ─────────────────────────────────────────────
+  # JOB 2 — Deploy Gateway
+  # ─────────────────────────────────────────────
+  deploy-gateway:
+    name: Deploy Gateway
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Gateway
+        run: dotnet publish src/ReviewIQ.Gateway/ReviewIQ.Gateway.csproj --configuration Release --output ./publish/gateway
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Deploy Gateway to Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_GATEWAY_APP_NAME }}
+          package: ./publish/gateway
+
+  # ─────────────────────────────────────────────
+  # JOB 3 — Deploy AI Service
+  # ─────────────────────────────────────────────
+  deploy-ai:
+    name: Deploy AI Service
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish AI Service
+        run: dotnet publish src/ReviewIQ.AI/ReviewIQ.AI.csproj --configuration Release --output ./publish/ai
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Deploy AI Service to Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_AI_APP_NAME }}
+          package: ./publish/ai
+
+  # ─────────────────────────────────────────────
+  # JOB 4 — Deploy Analytics Service
+  # ─────────────────────────────────────────────
+  deploy-analytics:
+    name: Deploy Analytics Service
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Analytics Service
+        run: dotnet publish src/ReviewIQ.Analytics/ReviewIQ.Analytics.csproj --configuration Release --output ./publish/analytics
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Deploy Analytics to Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_ANALYTICS_APP_NAME }}
+          package: ./publish/analytics
+
+  # ─────────────────────────────────────────────
+  # JOB 5 — Deploy Notify Service
+  # ─────────────────────────────────────────────
+  deploy-notify:
+    name: Deploy Notify Service
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Notify Service
+        run: dotnet publish src/ReviewIQ.Notify/ReviewIQ.Notify.csproj --configuration Release --output ./publish/notify
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Deploy Notify to Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_NOTIFY_APP_NAME }}
+          package: ./publish/notify
