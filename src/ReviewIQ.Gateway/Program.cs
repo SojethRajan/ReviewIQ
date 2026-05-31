@@ -7,10 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 var keyVaultUrlString = builder.Configuration["KeyVault:Url"];
 if (string.IsNullOrWhiteSpace(keyVaultUrlString))
 {
-    throw new InvalidOperationException("KeyVault: Url configuration value is missing or empty.");
+    var keyVaultUrl = new Uri(keyVaultUrlString);
+    builder.Configuration.AddAzureKeyVault(keyVaultUrl, new DefaultAzureCredential());  
 }
-var keyVaultUrl = new Uri(keyVaultUrlString);
-builder.Configuration.AddAzureKeyVault(keyVaultUrl, new DefaultAzureCredential());
 
 // Add services
 builder.Services.AddControllers();
@@ -24,7 +23,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
