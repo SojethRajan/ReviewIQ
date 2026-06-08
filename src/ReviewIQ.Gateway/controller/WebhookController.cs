@@ -46,7 +46,6 @@ namespace ReviewIQ.Gateway.controller
                 OrchestratorResult.PublishFailed => StatusCode(500, "Failed to publish event."),
                 _ => StatusCode(500, "Unexpected error.")
             };
-            //testing pull req 
         }
     }
 }
