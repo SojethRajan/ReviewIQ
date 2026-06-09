@@ -1,5 +1,7 @@
 using Azure.Identity;
+using Microsoft.EntityFrameworkCore;
 using ReviewIQ.AI;
+using ReviewIQ.AI.Infrastructure;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -12,6 +14,11 @@ if (string.IsNullOrWhiteSpace(keyVaultUrlString))
 var keyVaultUrl = new Uri(keyVaultUrlString);
 builder.Configuration.AddAzureKeyVault(keyVaultUrl, new DefaultAzureCredential());
 
+
+//database connection
+builder.Services.AddDbContext<AiDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ReviewIQDb")));
+    
 builder.Services.AddHostedService<Worker>();
 
 var host = builder.Build();
