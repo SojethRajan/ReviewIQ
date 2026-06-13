@@ -26,6 +26,7 @@ namespace ReviewIQ.Gateway.Services
             var message = new PrReviewRequestedMessage
             {
                 IncomingEventId = incomingEvent.Id,
+                RepositoryId = incomingEvent.RepositoryId,
                 DeliveryId = incomingEvent.DeliveryId,
                 RepositoryOwner = repositoryOwner,
                 RepositoryName = repositoryName,

@@ -11,7 +11,7 @@ namespace ReviewIQ.Gateway.Services
 
         public HmacValidationService(IConfiguration configuration)
         {
-            _secret = configuration["GitHubWebhookSecret"] ?? throw new ArgumentNullException("GitHub:WebhookSecret configuration is missing.");
+            _secret = configuration["GitHub:WebhookSecret"] ?? throw new ArgumentNullException("GitHub:WebhookSecret configuration is missing.");
         }
 
         public bool IsValid(string signatureHeader, string rawBody)

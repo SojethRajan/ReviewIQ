@@ -3,6 +3,7 @@
     public class PrReviewRequestedMessage
     {
         public Guid IncomingEventId { get; init; }
+        public Guid RepositoryId { get; init; }
         public string DeliveryId { get; init; } = string.Empty;
         public string RepositoryOwner { get; init; } = string.Empty;
         public string RepositoryName { get; init; } = string.Empty;

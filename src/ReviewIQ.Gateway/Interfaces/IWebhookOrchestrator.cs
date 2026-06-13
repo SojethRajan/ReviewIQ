@@ -1,4 +1,4 @@
-﻿using ReviewIQ.Gateway.Models;
+﻿using ReviewIQ.Shared.Constants;
 
 namespace ReviewIQ.Gateway.Interfaces
 {

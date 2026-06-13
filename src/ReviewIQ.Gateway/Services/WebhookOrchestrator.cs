@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ReviewIQ.Gateway.Domain;
 using ReviewIQ.Gateway.Infrastructure;
 using ReviewIQ.Gateway.Interfaces;
-using ReviewIQ.Gateway.Models;
+using ReviewIQ.Shared.Constants;
 
 namespace ReviewIQ.Gateway.Services
 {
