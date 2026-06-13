@@ -101,6 +101,14 @@ public class GeminiService : IGeminiService
         if (string.IsNullOrWhiteSpace(text))
             throw new InvalidOperationException("Gemini returned an empty response.");
 
+        // Strip markdown code fences if Gemini wraps response despite being told not to
+        text = text.Trim();
+        if (text.StartsWith("```"))
+        {
+            text = text.Substring(text.IndexOf('\n') + 1);
+            text = text.Substring(0, text.LastIndexOf("```")).Trim();
+        }
+
         return JsonSerializer.Deserialize<GeminiReviewResponse>(text)
             ?? throw new InvalidOperationException("Failed to deserialise Gemini response.");
     }
