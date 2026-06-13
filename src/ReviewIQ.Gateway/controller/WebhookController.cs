@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ReviewIQ.Gateway.Interfaces;
-using ReviewIQ.Gateway.Models;
+using ReviewIQ.Shared.Constants;
 
 namespace ReviewIQ.Gateway.controller
 {
