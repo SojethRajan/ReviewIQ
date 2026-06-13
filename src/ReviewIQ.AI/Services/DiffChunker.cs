@@ -19,7 +19,7 @@ public class DiffChunker : IDiffChunker
 
         if(diff.Length <= MaxChunkSize)
         {
-            chunks.Append(diff);
+            chunks.Add(diff);
             return chunks;
         }
 
