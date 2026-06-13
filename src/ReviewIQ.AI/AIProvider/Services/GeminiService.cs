@@ -20,8 +20,9 @@ public class GeminiService : IGeminiService
 
     public async Task<GeminiReviewResponse> ReviewAsync(string diffChunk)
     {
+        var url = $"v1beta/models/gemini-2.5-flash:generateContent";
+
         var apiKey = _configuration["Gemini:ApiKey"];
-        var url = $"v1beta/models/gemini-2.5-flash:generateContent?key={apiKey}";
 
         var prompt = BuildPrompt(diffChunk);
 
@@ -42,9 +43,13 @@ public class GeminiService : IGeminiService
         var json = JsonSerializer.Serialize(requestBody);
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-        _logger.LogInformation("Sending diff chunk to Gemini for review");
+        //create http-request
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+        request.Headers.Add("x-goog-api-key", apiKey);
+        request.Content = httpContent;
 
-        var response = await _httpClient.PostAsync(url, httpContent);
+        _logger.LogInformation("Sending diff chunk to Gemini for review");
+        var response = await _httpClient.SendAsync(request);
 
         if (!response.IsSuccessStatusCode)
         {
