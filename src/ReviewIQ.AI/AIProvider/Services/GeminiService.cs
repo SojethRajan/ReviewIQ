@@ -102,14 +102,25 @@ public class GeminiService : IGeminiService
             throw new InvalidOperationException("Gemini returned an empty response.");
 
         // Strip markdown code fences if Gemini wraps response despite being told not to
-        text = text.Trim();
-        if (text.StartsWith("```"))
-        {
-            text = text.Substring(text.IndexOf('\n') + 1);
-            text = text.Substring(0, text.LastIndexOf("```")).Trim();
-        }
+        text = StripMarkdownFences(text);
 
         return JsonSerializer.Deserialize<GeminiReviewResponse>(text)
             ?? throw new InvalidOperationException("Failed to deserialise Gemini response.");
+    }
+
+    private string StripMarkdownFences(string input)
+    {
+        input = input.Trim();
+        if (input.StartsWith("```"))
+        {
+            var newlineIndex = input.IndexOf('\n');
+            if (newlineIndex >= 0)
+                input = input.Substring(newlineIndex + 1);
+
+            var closingFence = input.LastIndexOf("```");
+            if (closingFence >= 0)
+                input = input.Substring(0, closingFence).Trim();
+        }
+        return input;
     }
 }
