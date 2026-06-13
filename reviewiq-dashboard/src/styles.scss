@@ -1,39 +1,159 @@
-
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+// ─── Google Fonts ────────────────────────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+// ─── Material 3 Theme ────────────────────────────────────────────────────────
 html {
   @include mat.theme((
     color: (
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
+      primary: mat.$violet-palette,
+      tertiary: mat.$cyan-palette,
+      theme-type: dark,
     ),
-    typography: Roboto,
+    typography: Inter,
     density: 0,
   ));
 }
 
-body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
+// ─── ReviewIQ Design Tokens ──────────────────────────────────────────────────
+:root {
+  // Surfaces
+  --riq-bg:              #0d1117;
+  --riq-surface:         #161b22;
+  --riq-surface-raised:  #1c2128;
+  --riq-border:          #30363d;
 
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
+  // Accent
+  --riq-accent:          #7c3aed;
+  --riq-accent-muted:    #2d1b69;
+  --riq-accent-hover:    #6d28d9;
 
-  // Reset the user agent margin.
-  margin: 0;
+  // Severity
+  --riq-critical:        #f85149;
+  --riq-critical-bg:     #2d1015;
+  --riq-warning:         #d29922;
+  --riq-warning-bg:      #2d1f00;
+  --riq-suggestion:      #3fb950;
+  --riq-suggestion-bg:   #0d2818;
+
+  // Text
+  --riq-text-primary:    #e6edf3;
+  --riq-text-muted:      #8b949e;
+  --riq-text-subtle:     #484f58;
+
+  // Typography
+  --riq-font-body:       'Inter', sans-serif;
+  --riq-font-mono:       'JetBrains Mono', monospace;
+
+  // Layout
+  --riq-sidebar-width:   220px;
+  --riq-topbar-height:   56px;
+  --riq-radius:          6px;
+  --riq-radius-lg:       10px;
 }
-/* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// ─── Base Reset ───────────────────────────────────────────────────────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--riq-bg);
+  color: var(--riq-text-primary);
+  font-family: var(--riq-font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+// ─── Material Overrides ───────────────────────────────────────────────────────
+html {
+  --mat-sys-surface:            var(--riq-surface);
+  --mat-sys-surface-container:  var(--riq-surface-raised);
+  --mat-sys-background:         var(--riq-bg);
+  --mat-sys-on-surface:         var(--riq-text-primary);
+  --mat-sys-outline:            var(--riq-border);
+  --mat-sys-primary:            var(--riq-accent);
+}
+
+// ─── Scrollbar ────────────────────────────────────────────────────────────────
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: var(--riq-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--riq-text-subtle); }
+
+// ─── Score Circle ─────────────────────────────────────────────────────────────
+// Global utility used by PR feed, PR detail, and any score display.
+// Apply .riq-score to the container, then one modifier class.
+.riq-score {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  background: var(--riq-surface-raised);
+
+  &--high {
+    // score >= 85
+    color: var(--riq-suggestion);
+  }
+
+  &--mid {
+    // score 65–84
+    color: var(--riq-warning);
+  }
+
+  &--low {
+    // score < 65
+    color: var(--riq-critical);
+  }
+
+  &--analysing {
+    // no number — spinning violet ring
+    background: var(--riq-surface);
+    border: 2px solid var(--riq-border);
+    border-top-color: var(--riq-accent);
+    animation: riq-spin 1s linear infinite;
+  }
+}
+
+@keyframes riq-spin {
+  to { transform: rotate(360deg); }
+}
+
+// ─── Severity Badges ──────────────────────────────────────────────────────────
+// Global utility for Critical / Warning / Suggestion / Reviewing pills.
+// Used in PR feed, PR detail, and comment overlays.
+.riq-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: var(--riq-radius);
+
+  &--critical   { background: var(--riq-critical-bg);   color: var(--riq-critical);   }
+  &--warning    { background: var(--riq-warning-bg);    color: var(--riq-warning);    }
+  &--suggestion { background: var(--riq-suggestion-bg); color: var(--riq-suggestion); }
+  &--reviewing  { background: #1a1428;                  color: #8b6fd6;               }
+}
+
+// ─── Monospace Utility ────────────────────────────────────────────────────────
+// Used by diff viewer and inline code snippets.
+.mono {
+  font-family: var(--riq-font-mono);
+  font-size: 13px;
+}
