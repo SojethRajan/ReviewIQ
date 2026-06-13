@@ -1,0 +1,29 @@
+<nav class="sidebar">
+  <div class="sidebar__section-label">Main</div>
+
+  @for (item of navItems; track item.route) {
+    <a
+      [routerLink]="item.route"
+      routerLinkActive="sidebar__item--active"
+      class="sidebar__item"
+    >
+      <i class="ti {{ item.icon }}" aria-hidden="true"></i>
+      {{ item.label }}
+    </a>
+  }
+
+  <div class="sidebar__section-label sidebar__section-label--spaced">
+    Config
+  </div>
+
+  @for (item of configItems; track item.route) {
+    <a
+      [routerLink]="item.route"
+      routerLinkActive="sidebar__item--active"
+      class="sidebar__item"
+    >
+      <i class="ti {{ item.icon }}" aria-hidden="true"></i>
+      {{ item.label }}
+    </a>
+  }
+</nav>

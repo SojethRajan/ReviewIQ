@@ -1,0 +1,22 @@
+<header class="topbar">
+  <div class="topbar__logo">
+    <div class="topbar__logo-dot"></div>
+    ReviewIQ
+  </div>
+
+  <div class="topbar__spacer"></div>
+
+  <div class="topbar__status">
+    <span
+      class="topbar__pulse-dot"
+      [class.topbar__pulse-dot--connected]="isConnected"
+      [class.topbar__pulse-dot--disconnected]="!isConnected"
+    >
+    </span>
+    <span class="topbar__status-label">
+      {{ isConnected ? "Connected" : "Disconnected" }}
+    </span>
+  </div>
+
+  <div class="topbar__avatar" aria-label="User avatar">SR</div>
+</header>
