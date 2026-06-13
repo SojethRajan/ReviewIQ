@@ -18,9 +18,12 @@ if (!string.IsNullOrWhiteSpace(keyVaultUrlString))
 
 // Database 
 builder.Services.AddDbContext<GatewayDbContext>(options =>
-    options.UseSqlServer(builder.Configuration
-        .GetConnectionString("ReviewIQDb")));
-
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("ReviewIQDb"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorNumbersToAdd: null)));
 
 // RabbitMQ
 builder.Services.AddSingleton<IConnection>(sp =>
