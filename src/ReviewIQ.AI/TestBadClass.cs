@@ -24,6 +24,7 @@ namespace ReviewIQ.AI
             {
                 // TODO: fix this later
                 int x = 0;
+                int a = 110;
                 var data = result;
             }
         }
