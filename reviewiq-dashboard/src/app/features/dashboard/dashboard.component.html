@@ -1,71 +1,67 @@
 <div class="dashboard">
-  <h1 class="dashboard__title">Dashboard</h1>
+    <h1 class="dashboard__title">Dashboard</h1>
 
-  <div class="dashboard__cards">
-    @for (card of summaryCards; track card.label) {
-      <div class="summary-card">
-        <div class="summary-card__label">{{ card.label }}</div>
-        <div
-          class="summary-card__value"
-          [class.summary-card__value--critical]="
+    <div class="dashboard__cards">
+        @for (card of summaryCards; track card.label) {
+        <div class="summary-card">
+            <div class="summary-card__label">{{ card.label }}</div>
+            <div class="summary-card__value" [class.summary-card__value--critical]="
             card.label === 'Critical issues'
-          "
-        >
-          {{ card.value }}
+          ">
+                {{ card.value }}
+            </div>
+            <div class="summary-card__sub" [class.summary-card__sub--positive]="card.subClass === 'positive'"
+                [class.summary-card__sub--negative]="card.subClass === 'negative'">
+                {{ card.sub }}
+            </div>
         </div>
-        <div
-          class="summary-card__sub"
-          [class.summary-card__sub--positive]="card.subClass === 'positive'"
-          [class.summary-card__sub--negative]="card.subClass === 'negative'"
-        >
-          {{ card.sub }}
-        </div>
-      </div>
-    }
-  </div>
+        }
+    </div>
 
-  <div class="dashboard__section-label">Live PR feed</div>
+    <div class="dashboard__section-label">Live PR feed</div>
 
-  <div class="pr-feed">
-    @for (item of prFeed; track item.codeReview.id) {
-      <div class="pr-item">
-        <div [class]="getScoreClass(item)">
-          {{ getScoreLabel(item) }}
-        </div>
+    <div class="pr-feed">
+        @for (item of prFeed; track item.codeReview.id) {
+        <div class="pr-item" [routerLink]="['/pr', item.codeReview.id]" style="cursor: pointer;">
+            <div class="riq-score" [ngClass]="getScoreClass(item.codeReview.qualityScore, item.codeReview.status)">
+                @if (item.codeReview.status !== 'InProgress') {
+                {{ item.codeReview.qualityScore }}
+                }
+            </div>
 
-        <div class="pr-item__info">
-          <div class="pr-item__title">{{ item.pullRequestTitle }}</div>
-          <div class="pr-item__meta">
-            {{ item.repositoryOwner }} · #{{
-              item.codeReview.pullRequestNumber
-            }}
-            @if (item.codeReview.status === "InProgress") {
-              · analysing…
-            }
-          </div>
-        </div>
+            <div class="pr-item__info">
+                <div class="pr-item__title">{{ item.pullRequestTitle }}</div>
+                <div class="pr-item__meta">
+                    {{ item.repositoryOwner }} · #{{
+                    item.codeReview.pullRequestNumber
+                    }}
+                    @if (item.codeReview.status === "InProgress") {
+                    · analysing…
+                    }
+                </div>
+            </div>
 
-        <div class="pr-item__badges">
-          @if (item.codeReview.status === "InProgress") {
-            <span class="riq-badge riq-badge--reviewing">Reviewing</span>
-          }
-          @if (getCriticalCount(item) > 0) {
-            <span class="riq-badge riq-badge--critical">
-              {{ getCriticalCount(item) }} critical
-            </span>
-          }
-          @if (getWarningCount(item) > 0) {
-            <span class="riq-badge riq-badge--warning">
-              {{ getWarningCount(item) }} warnings
-            </span>
-          }
-          @if (getSuggestionCount(item) > 0) {
-            <span class="riq-badge riq-badge--suggestion">
-              {{ getSuggestionCount(item) }} suggestions
-            </span>
-          }
+            <div class="pr-item__badges">
+                @if (item.codeReview.status === "InProgress") {
+                <span class="riq-badge riq-badge--reviewing">Reviewing</span>
+                }
+                @if (getCriticalCount(item.codeReview) > 0) {
+                <span class="riq-badge riq-badge--critical">
+                    {{ getCriticalCount(item.codeReview) }} critical
+                </span>
+                }
+                @if (getWarningCount(item.codeReview) > 0) {`
+                <span class="riq-badge riq-badge--warning">
+                    {{ getWarningCount(item.codeReview) }} warnings
+                </span>
+                }
+                @if (getSuggestionCount(item.codeReview) > 0) {
+                <span class="riq-badge riq-badge--suggestion">
+                    {{ getSuggestionCount(item.codeReview) }} suggestions
+                </span>
+                }
+            </div>
         </div>
-      </div>
-    }
-  </div>
+        }
+    </div>
 </div>

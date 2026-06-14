@@ -1,0 +1,48 @@
+<div class="summary-card">
+    <div class="summary-card__score-col">
+        <div class="riq-score" [ngClass]="getScoreClass(review.qualityScore, review.status)">
+            @if (review.status !== 'InProgress') {
+            {{ review.qualityScore }}
+            }
+        </div>
+        <span class="summary-card__score-label" [ngClass]="getScoreLabelClass(review.qualityScore, review.status)">
+            {{ getScoreLabel(review.qualityScore, review.status) }}
+        </span>
+    </div>
+
+    <div class="summary-card__meta">
+        <div class="summary-card__heading">
+            <span class="summary-card__pr-number">#{{ review.pullRequestNumber }}</span>
+            <span class="summary-card__commit mono">{{ review.commitSha | slice:0:7 }}</span>
+            <span class="summary-card__status" [ngClass]="'summary-card__status--' + review.status.toLowerCase()">
+                {{ review.status }}
+            </span>
+        </div>
+
+        <div class="summary-card__counts">
+            <div class="summary-card__count summary-card__count--critical">
+                <span class="summary-card__count-value">{{ getCriticalCount(review) }}</span>
+                <span class="summary-card__count-label">Critical</span>
+            </div>
+            <div class="summary-card__count summary-card__count--warning">
+                <span class="summary-card__count-value">{{ getWarningCount(review) }}</span>
+                <span class="summary-card__count-label">Warnings</span>
+            </div>
+            <div class="summary-card__count summary-card__count--suggestion">
+                <span class="summary-card__count-value">{{ getSuggestionCount(review) }}</span>
+                <span class="summary-card__count-label">Suggestions</span>
+            </div>
+            <div class="summary-card__count">
+                <span class="summary-card__count-value">{{ review.totalComments }}</span>
+                <span class="summary-card__count-label">Total</span>
+            </div>
+        </div>
+
+        <div class="summary-card__timestamps">
+            <span>Started: {{ formatReviewDate(review.startedOn) }}</span>
+            @if (review.completedOn) {
+            <span>Completed: {{ formatReviewDate(review.completedOn) }}</span>
+            }
+        </div>
+    </div>
+</div>
