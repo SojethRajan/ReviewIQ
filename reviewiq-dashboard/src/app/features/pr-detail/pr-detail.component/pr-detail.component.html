@@ -1,0 +1,17 @@
+<div class="pr-detail">
+
+    <div class="pr-detail__header">
+        <a class="pr-detail__back" routerLink="/dashboard">← Back to Dashboard</a>
+        <h1 class="pr-detail__title">PR #{{ review.pullRequestNumber }} Review</h1>
+    </div>
+
+    <app-summary-card [review]="review" />
+
+    <div class="pr-detail__diff-placeholder">
+        <span class="pr-detail__diff-label">Diff Viewer</span>
+        <p class="pr-detail__diff-sub">Coming in Sprint 4 — real diff will render here</p>
+    </div>
+
+    <app-comment-overlay [comments]="review.comments" />
+
+</div>

@@ -1,0 +1,136 @@
+.summary-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    background: var(--riq-surface-1);
+    border: 1px solid var(--riq-border);
+    border-radius: 12px;
+    padding: 24px 28px;
+}
+
+.summary-card__score-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.summary-card__score-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+
+    &.label--high {
+        color: var(--riq-suggestion);
+    }
+
+    &.label--mid {
+        color: var(--riq-warning);
+    }
+
+    &.label--low {
+        color: var(--riq-critical);
+    }
+
+    &.label--analysing {
+        color: var(--riq-accent);
+    }
+}
+
+.summary-card__meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.summary-card__heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.summary-card__pr-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--riq-text-primary);
+}
+
+.summary-card__commit {
+    font-size: 12px;
+    color: var(--riq-text-secondary);
+    background: var(--riq-surface-2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--riq-border);
+}
+
+.summary-card__status {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+    border-radius: 20px;
+
+    &--completed {
+        background: rgba(34, 197, 94, 0.12);
+        color: var(--riq-success);
+    }
+
+    &--inprogress {
+        background: rgba(124, 58, 237, 0.15);
+        color: var(--riq-accent);
+    }
+
+    &--failed {
+        background: rgba(239, 68, 68, 0.12);
+        color: var(--riq-critical);
+    }
+}
+
+.summary-card__counts {
+    display: flex;
+    gap: 32px;
+}
+
+.summary-card__count {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.summary-card__count-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--riq-text-primary);
+}
+
+.summary-card__count-label {
+    font-size: 11px;
+    color: var(--riq-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.summary-card__count--critical .summary-card__count-value {
+    color: var(--riq-critical);
+}
+
+.summary-card__count--warning .summary-card__count-value {
+    color: var(--riq-warning);
+}
+
+.summary-card__count--suggestion .summary-card__count-value {
+    color: var(--riq-accent);
+}
+
+.summary-card__timestamps {
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    color: var(--riq-text-secondary);
+}

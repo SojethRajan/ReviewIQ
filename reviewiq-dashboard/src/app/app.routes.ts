@@ -14,6 +14,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'pr/:id',
+    loadComponent: () =>
+      import('./features/pr-detail/pr-detail.component/pr-detail.component').then(
+        (m) => m.PrDetailComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   },

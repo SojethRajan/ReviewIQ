@@ -1,0 +1,39 @@
+<div class="comment-overlay">
+
+    <div class="comment-overlay__header">
+        <span class="comment-overlay__title">AI Review Comments</span>
+        <span class="comment-overlay__count">
+            {{ comments.length }} {{ comments.length === 1 ? 'comment' : 'comments' }}
+        </span>
+    </div>
+
+    @if (comments.length === 0) {
+    <div class="comment-overlay__empty">
+        No comments — this PR looks clean.
+    </div>
+    }
+
+    @for (comment of comments; track comment.id) {
+    <div class="comment-overlay__item">
+
+        <div class="comment-overlay__item-header">
+            <span class="comment-overlay__filepath mono">{{ comment.filePath }}</span>
+            <span class="comment-overlay__line mono">L{{ comment.lineNumber }}</span>
+            <app-severity-badge [severity]="comment.severity" />
+            <app-category-chip [category]="comment.category" />
+        </div>
+
+        <div class="comment-overlay__body">
+            <p class="comment-overlay__comment">{{ comment.comment }}</p>
+            @if (comment.suggestion) {
+            <div class="comment-overlay__suggestion">
+                <span class="comment-overlay__suggestion-label">Suggestion</span>
+                <p class="comment-overlay__suggestion-text mono">{{ comment.suggestion }}</p>
+            </div>
+            }
+        </div>
+
+    </div>
+    }
+
+</div>
