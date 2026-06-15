@@ -1,0 +1,144 @@
+.repo-list {
+    background: var(--riq-surface-raised);
+    border: 1px solid var(--riq-border);
+    border-radius: 12px;
+    padding: 24px;
+
+    &__header {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 24px;
+    }
+
+    &__icon {
+        font-size: 22px;
+        color: var(--riq-accent);
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    &__title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--riq-text);
+        margin: 0 0 4px;
+    }
+
+    &__subtitle {
+        font-size: 13px;
+        color: var(--riq-text-muted);
+        margin: 0;
+    }
+
+    &__empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 0;
+        gap: 8px;
+    }
+
+    &__empty-icon {
+        font-size: 36px;
+        color: var(--riq-border);
+        margin-bottom: 8px;
+    }
+
+    &__empty-text {
+        font-size: 14px;
+        color: var(--riq-text-muted);
+        margin: 0;
+        font-weight: 500;
+    }
+
+    &__empty-hint {
+        font-size: 13px;
+        color: var(--riq-border);
+        margin: 0;
+    }
+
+    &__table-wrap {
+        overflow-x: auto;
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--riq-text-muted);
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--riq-border);
+        }
+    }
+
+    &__row {
+        border-bottom: 1px solid var(--riq-border);
+        transition: background 0.15s;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover {
+            background: var(--riq-surface);
+        }
+
+        td {
+            padding: 14px 12px;
+            vertical-align: middle;
+        }
+    }
+
+    &__repo-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        i {
+            font-size: 15px;
+            color: var(--riq-accent);
+            flex-shrink: 0;
+        }
+
+        span {
+            font-size: 13px;
+            color: var(--riq-text);
+        }
+    }
+
+    &__status-pill {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 20px;
+        background: var(--riq-border);
+        color: var(--riq-text-muted);
+        letter-spacing: 0.03em;
+
+        &--active {
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+        }
+    }
+
+    &__remove-btn {
+        color: var(--riq-text-muted) !important;
+        transition: color 0.15s;
+
+        &:hover {
+            color: var(--riq-critical) !important;
+        }
+
+        i {
+            font-size: 16px;
+        }
+    }
+}

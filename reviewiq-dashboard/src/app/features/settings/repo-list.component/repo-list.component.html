@@ -1,0 +1,57 @@
+<div class="repo-list">
+    <div class="repo-list__header">
+        <i class="ti ti-database repo-list__icon"></i>
+        <div>
+            <h2 class="repo-list__title">Registered Repositories</h2>
+            <p class="repo-list__subtitle">
+                {{ repositories.length }} {{ repositories.length === 1 ? 'repository' : 'repositories' }} registered
+            </p>
+        </div>
+    </div>
+
+    @if (repositories.length === 0) {
+    <div class="repo-list__empty">
+        <i class="ti ti-inbox-off repo-list__empty-icon"></i>
+        <p class="repo-list__empty-text">No repositories registered yet.</p>
+        <p class="repo-list__empty-hint">Use the form above to add your first repository.</p>
+    </div>
+    } @else {
+    <div class="repo-list__table-wrap">
+        <table class="repo-list__table">
+            <thead>
+                <tr>
+                    <th>Repository</th>
+                    <th>Status</th>
+                    <th>Active</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (repo of repositories; track repo.id) {
+                <tr class="repo-list__row">
+                    <td class="repo-list__repo-name">
+                        <i class="ti ti-git-branch"></i>
+                        <span class="mono">{{ repo.owner }}/{{ repo.name }}</span>
+                    </td>
+                    <td>
+                        <span class="repo-list__status-pill" [class.repo-list__status-pill--active]="repo.isActive">
+                            {{ repo.isActive ? 'Active' : 'Inactive' }}
+                        </span>
+                    </td>
+                    <td>
+                        <mat-slide-toggle [checked]="repo.isActive" (change)="toggleActive.emit(repo)" color="primary">
+                        </mat-slide-toggle>
+                    </td>
+                    <td>
+                        <button mat-icon-button class="repo-list__remove-btn" (click)="remove.emit(repo)"
+                            title="Remove repository">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+</div>

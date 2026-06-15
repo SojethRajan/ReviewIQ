@@ -1,0 +1,28 @@
+.settings-page {
+    padding: 28px 32px;
+    max-width: 820px;
+
+    &__heading {
+        margin-bottom: 28px;
+    }
+
+    &__title {
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--riq-text);
+        margin: 0 0 6px;
+    }
+
+    &__desc {
+        font-size: 13px;
+        color: var(--riq-text-muted);
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+}

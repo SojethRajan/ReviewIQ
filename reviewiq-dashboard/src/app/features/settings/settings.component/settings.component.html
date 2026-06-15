@@ -1,0 +1,17 @@
+<div class="settings-page">
+    <div class="settings-page__heading">
+        <h1 class="settings-page__title">Settings</h1>
+        <p class="settings-page__desc">
+            Manage repositories connected to ReviewIQ. Webhook wiring is handled automatically when a repo is active.
+        </p>
+    </div>
+
+    <div class="settings-page__content">
+        <app-repo-config-panel (register)="onRegister($event)">
+        </app-repo-config-panel>
+
+        <app-repo-list [repositories]="repositories" (toggleActive)="onToggleActive($event)"
+            (remove)="onRemove($event)">
+        </app-repo-list>
+    </div>
+</div>

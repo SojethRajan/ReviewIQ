@@ -1,0 +1,28 @@
+<div class="config-panel">
+    <div class="config-panel__header">
+        <i class="ti ti-git-branch config-panel__icon"></i>
+        <div>
+            <h2 class="config-panel__title">Register a Repository</h2>
+            <p class="config-panel__subtitle">Add a GitHub repository to start receiving AI-powered PR reviews.</p>
+        </div>
+    </div>
+
+    <div class="config-panel__form">
+        <div class="config-panel__field-wrap">
+            <label class="config-panel__label">Owner</label>
+            <input class="config-panel__input" [(ngModel)]="owner" placeholder="e.g. SojethRajan" autocomplete="off" />
+            <span class="config-panel__hint">GitHub username or organisation name</span>
+        </div>
+
+        <div class="config-panel__field-wrap">
+            <label class="config-panel__label">Repository Name</label>
+            <input class="config-panel__input" [(ngModel)]="repoName" placeholder="e.g. ReviewIQ" autocomplete="off" />
+            <span class="config-panel__hint">Exact repository name, case-sensitive</span>
+        </div>
+
+        <button mat-flat-button class="config-panel__btn" [disabled]="!isValid" (click)="onRegister()">
+            <i class="ti ti-plus"></i>
+            Register Repository
+        </button>
+    </div>
+</div>
